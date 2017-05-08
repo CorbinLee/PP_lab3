@@ -45,21 +45,6 @@ int main(int argc, char *argv[])
 }
 
 
-/* Each thread will check it's portion of the array and put the max number in the first index */
-__global__
-void foo(unsigned int * num_d, unsigned int * max, unsigned int size) {
-    int i = threadIdx.x;
-    int chunk = size / 10;
-    int j;
-    max[i] = 0;
-
-    for (j = i*chunk; j < (i+1) * chunk; j++) {
-        if (num_d[j] > max[i])
-            max[i] = num_d[j];
-    }
-}
-
-
 /*
    input: pointer to an array of long int
           number of elements in the array
@@ -93,14 +78,14 @@ unsigned int getmaxcu(unsigned int * num, unsigned int * max, unsigned int size)
     //int minNumThreads = (size + numsPerThread - 1) / numsPerThread;
     int blocks = 1;
     int threadsPerBlock = 10;
-    foo<<<blocks, threadsPerBlock>>>(num_d, max, size);
+    foo<<<blocks, threadsPerBlock>>>(num_d, max_d, size);
 
     /* Copy the max array from device to host and find the max of those */
     cudaMemcpy(max, max_d, 10 * sizeof(unsigned int), cudaMemcpyDeviceToHost);
 
 
     unsigned int maxNum = 0;
-    for(i = 1; i < 10; i++)
+    for(i = 0; i < 10; i++)
         if(max[i] > maxNum)
             maxNum = max[i];
 
@@ -110,3 +95,19 @@ unsigned int getmaxcu(unsigned int * num, unsigned int * max, unsigned int size)
     return maxNum;
 
 }
+
+/* Each thread will check it's portion of the array and put the max number in the first index */
+__global__
+void foo(unsigned int * num_d, unsigned int * max_d, unsigned int size) {
+    int i = threadIdx.x;
+    int chunk = size / 10;
+    int j;
+    max_d[i] = 0;
+
+    for (j = i*chunk; j < (i+1) * chunk; j++) {
+        if (num_d[j] > max_d[i])
+            max_d[i] = num_d[j];
+    }
+}
+
+
