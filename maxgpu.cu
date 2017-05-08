@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
           number of elements in the array
    output: the maximum number of the array
 */
-unsigned int getmaxcu(unsigned int num[], unsigned int max[], unsigned int size)
+unsigned int getmaxcu(unsigned int * num, unsigned int * max, unsigned int size)
 {
     unsigned int i;
     unsigned int * max_d;
