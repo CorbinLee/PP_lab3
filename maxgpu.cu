@@ -5,7 +5,7 @@
 #include <math.h>
 
 unsigned int getmaxcu(unsigned int *, unsigned int *, unsigned int);
-void foo(unsigned int *, unsigned int *, unsigned int)
+void foo(unsigned int *, unsigned int *, unsigned int);
 
 int main(int argc, char *argv[])
 {
