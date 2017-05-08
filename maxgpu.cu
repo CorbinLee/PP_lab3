@@ -43,6 +43,21 @@ int main(int argc, char *argv[])
 }
 
 
+/* Each thread will check it's portion of the array and put the max number in the first index */
+__global__
+void foo(unsigned int * num_d, unsigned int * max, unsigned int size) {
+    int i = threadIdx.x;
+    int chunk = size / 10;
+    int j;
+    max[i] = 0;
+
+    for (j = i*chunk; j < (i+1) * chunk; j++) {
+        if (num_d[j] > max[i])
+            max[i] = num_d[j];
+    }
+}
+
+
 /*
    input: pointer to an array of long int
           number of elements in the array
@@ -92,18 +107,4 @@ unsigned int getmaxcu(unsigned int * num, unsigned int * max, unsigned int size)
 
     return maxNum;
 
-}
-
-/* Each thread will check it's portion of the array and put the max number in the first index */
-__global__
-void foo(unsigned int * num_d, unsigned int * max, unsigned int size) {
-    int i = threadIdx.x;
-    int chunk = size / 10;
-    int j;
-    max[i] = 0;
-
-    for (j = i*chunk; j < (i+1) * chunk; j++) {
-        if (num_d[j] > max[i])
-            max[i] = num_d[j];
-    }
 }
