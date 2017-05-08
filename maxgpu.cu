@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     size = atol(argv[1]);
 
     /* Give each thread 1000 numbers */
-    numsPerThread = 1000;
+    numsPerThread = 100;
 
     /* I'm assuming that size is divisible by 1000 since that's the case for all the tests for the writeup */
     numThreads = size / numsPerThread;
