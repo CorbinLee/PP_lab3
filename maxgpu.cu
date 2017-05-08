@@ -5,6 +5,7 @@
 #include <math.h>
 
 unsigned int getmaxcu(unsigned int *, unsigned int *, unsigned int);
+__global__
 void foo(unsigned int *, unsigned int *, unsigned int);
 
 int main(int argc, char *argv[])
@@ -85,9 +86,9 @@ unsigned int getmaxcu(unsigned int * num, unsigned int * max, unsigned int size)
      * Max threads = 2048 * 15 = 30720
      * Max threads/block = 1024
      */
-    int threads = (30720 > size) ? size : 30720;
+    //int threads = (30720 > size) ? size : 30720;
     
-    int numsPerThread = 0;
+    //int numsPerThread = 0;
     // Find number of threads, rounding up
     //int minNumThreads = (size + numsPerThread - 1) / numsPerThread;
     int blocks = 1;
